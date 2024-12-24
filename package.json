@@ -1,0 +1,14 @@
+{
+  "name": "mspm",
+  "module": "src/index.ts",
+  "scripts": {
+    "build": "bun build src/index.ts --compile --outfile dist/mspm"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module"
+}
