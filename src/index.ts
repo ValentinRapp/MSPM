@@ -8,6 +8,7 @@ export const loaders = [
 
 import { init } from "./commands/init";
 import { install } from "./commands/install";
+import { reinstall } from "./commands/reinstall";
 
 (async () => {
     const args = process.argv.slice(2);
@@ -23,6 +24,8 @@ import { install } from "./commands/install";
         await init();
     } else if (command === "install") {
         await install();
+    } else if (command === "reinstall") {
+        reinstall();
     } else {
         console.error("Invalid command");
         process.exit(1);

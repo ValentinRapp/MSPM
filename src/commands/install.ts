@@ -29,7 +29,7 @@ export const install = async () => {
         process.exit(1);
     }
     try {
-        cache = await Bun.file('mspm.cache.json').json();
+        cache = JSON.parse(Buffer.from(await Bun.file('mspm.cache').text(), 'base64').toString());
     } catch (e) {
         cache = null;
     }
@@ -38,6 +38,6 @@ export const install = async () => {
         downloadLoader(data);
     }
 
-    Bun.write('mspm.cache.json', JSON.stringify(data));
+    Bun.write('mspm.cache', Buffer.from(JSON.stringify(data)).toString('base64'));
 
 }
