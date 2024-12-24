@@ -4,7 +4,15 @@
 
 - [Bun](https://bun.sh)
 
-## Build project
+## Install
+
+### Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ValentinRapp/mspm/refs/heads/main/install.sh | bash
+```
+
+## Build project from source
 
 ```bash
 bun install
