@@ -6,9 +6,15 @@ export const loaders = [
     new Vanilla()
 ];
 
+export const sources = [
+    new Modrinth()
+];
+
 import { init } from "./commands/init";
 import { install } from "./commands/install";
 import { reinstall } from "./commands/reinstall";
+import { Modrinth } from "./sources/Modrinth";
+import { search } from "./commands/search";
 
 (async () => {
     const args = process.argv.slice(2);
@@ -26,6 +32,8 @@ import { reinstall } from "./commands/reinstall";
         await install();
     } else if (command === "reinstall") {
         reinstall();
+    } else if (command === "search") {
+        await search(args.slice(1));
     } else {
         console.error("Invalid command");
         process.exit(1);
