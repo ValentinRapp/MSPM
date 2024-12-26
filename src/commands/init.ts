@@ -47,7 +47,7 @@ export const init = async () => {
 
         const lastBuild = await loader.getLatestBuild(version);
 
-        Bun.write('mspm.json', JSON.stringify({ loader: { name: loader.name, version, build: lastBuild } }, null, 4));
+        Bun.write('mspm.json', JSON.stringify({ loader: { name: loader.name, version, build: lastBuild }, packages: [] }, null, 4));
 
         if (process.platform === 'win32') {
             Bun.write('run.bat', `java -Xmx${MemoryAmount}G -jar server.jar nogui`);

@@ -1,5 +1,11 @@
 import { Paper } from "./loaders/Paper";
 import { Vanilla } from "./loaders/Vanilla";
+import { init } from "./commands/init";
+import { install } from "./commands/install";
+import { reinstall } from "./commands/reinstall";
+import { Modrinth } from "./sources/Modrinth";
+import { search } from "./commands/search";
+import { add } from "./commands/add";
 
 export const loaders = [
     new Paper(),
@@ -10,11 +16,6 @@ export const sources = [
     new Modrinth()
 ];
 
-import { init } from "./commands/init";
-import { install } from "./commands/install";
-import { reinstall } from "./commands/reinstall";
-import { Modrinth } from "./sources/Modrinth";
-import { search } from "./commands/search";
 
 (async () => {
     const args = process.argv.slice(2);
@@ -34,6 +35,8 @@ import { search } from "./commands/search";
         reinstall();
     } else if (command === "search") {
         await search(args.slice(1));
+    } else if (command === "add") {
+        await add(args.slice(1));
     } else {
         console.error("Invalid command");
         process.exit(1);

@@ -1,8 +1,8 @@
 import { sources } from "..";
 
-export const search = async (args: string[]) => {
+export const add = async (args: string[]) => {
     if (args.length < 3) {
-        console.error("Usage: 'mspm search [source] [packageType] [query]'");
+        console.error("Usage: 'mspm add [source] [packageType] [package]'");
         process.exit(1);
     }
 
@@ -17,5 +17,5 @@ export const search = async (args: string[]) => {
         process.exit(1);
     }
 
-    source.executeSearchPackages(args[1], args[2]);
+    source.executeAddPackage(args[1], args[2]);
 }
