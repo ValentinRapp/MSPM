@@ -7,6 +7,7 @@ import { Modrinth } from "./sources/Modrinth";
 import { search } from "./commands/search";
 import { add } from "./commands/add";
 import { remove } from "./commands/remove";
+import { updateApp } from "./commands/updateApp";
 
 export const loaders = [
     new Paper(),
@@ -40,6 +41,8 @@ export const sources = [
         await add(args.slice(1));
     } else if (command === "remove") {
         await remove(args.slice(1));
+    } else if (command === "update-app") {
+        await updateApp();
     } else {
         console.error("Invalid command");
         process.exit(1);
