@@ -8,6 +8,7 @@ import { search } from "./commands/search";
 import { add } from "./commands/add";
 import { remove } from "./commands/remove";
 import { updateApp } from "./commands/updateApp";
+import { help } from "./commands/help";
 
 export const loaders = [
     new Paper(),
@@ -29,6 +30,7 @@ export const sources = [
 
     const command = args[0];
 
+    // This could be a switch case but I don't give a shit
     if (command === "init") {
         await init();
     } else if (command === "install") {
@@ -43,6 +45,8 @@ export const sources = [
         await remove(args.slice(1));
     } else if (command === "update-app") {
         await updateApp();
+    } else if (command === "help" || command === "-h") {
+        help();
     } else {
         console.error("Invalid command");
         process.exit(1);
