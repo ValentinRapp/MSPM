@@ -6,7 +6,7 @@ export const search = async (args: string[]) => {
         process.exit(1);
     }
 
-    const source = sources.find(source => source.name.toLowerCase() === args[0]);
+    const source = sources.find(source => source.name.toLowerCase() === args[0].toLowerCase());
     if (!source) {
         console.error(`Source ${args[0]} doesn't exist`);
         process.exit(1);

@@ -1,21 +1,41 @@
-import { loaders } from "../index";
-import type { packageFile } from "../types";
+import { loaders, sources } from "../index";
+import type { Package, packageFile, Loader } from "../types";
+import { getPath } from "../utils/getPath";
 
-const downloadLoader = async (data: packageFile) => {
-    const loader = loaders.find(loader => loader.name === data.loader.name);
+const downloadLoader = async (data: Loader) => {
+    const loader = loaders.find(loader => loader.name === data.name);
     if (!loader) {
-        console.error(`Loader ${data.loader.name} not found`);
+        console.error(`Loader ${data.name} not found`);
         process.exit(1);
     }
 
     try {
-        const file = await loader.executeDowwnloadLoader(data.loader.version, data.loader.build);
+        const file = await loader.executeDowwnloadLoader(data.version, data.build);
         Bun.write(`server.jar`, file);
-        console.log(`${data.loader.name} downloaded successfully`);
+        console.log(`${data.name} installed successfully ✅`);
     } catch (e) {
         console.error("An error occurred while downloading the loader:", e);
         process.exit(1);
     }
+}
+
+const installPackage = async (packageInfo: Package) => {
+
+    console.log(`Installing ${packageInfo.name}...`)
+
+    const source = sources.find(source => source.name.toLowerCase() === packageInfo.source.toLowerCase());
+    if (!source) {
+        console.error(`Source ${packageInfo.source} doesn't exist`);
+        process.exit(1);
+    }
+    const path = getPath(packageInfo.type);
+    const extension = ['plugin', 'mod'].includes(packageInfo.type) ? 'jar' : 'zip';
+
+    const fileData = await source.downloadPackage(packageInfo);
+
+    Bun.write(`${path}/${packageInfo.name}.${extension}`, fileData);
+
+    console.log(`${packageInfo.name} installed succesfully ✅`);
 }
 
 export const install = async () => {
@@ -34,9 +54,17 @@ export const install = async () => {
         cache = null;
     }
 
+    let mustDownloadLoader = false;
+
     if (!Bun.deepEquals(data.loader, cache?.loader)) {
-        downloadLoader(data);
+        mustDownloadLoader = true
     }
+
+    let packages = data.packages.filter(pkg =>
+        !cache?.packages.some(element => Bun.deepEquals(element, pkg))
+    );
+
+    await Promise.all([...packages.map(pkg => installPackage(pkg)), mustDownloadLoader ? downloadLoader(data.loader) : () => {}]);
 
     Bun.write('mspm.cache', Buffer.from(JSON.stringify(data)).toString('base64'));
 

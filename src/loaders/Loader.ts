@@ -16,7 +16,7 @@ export abstract class Loader {
     }
 
     async executeDowwnloadLoader(version: string, build: string): Promise<Blob> {
-        console.log(`Downloading ${this.name} ${version}`);
+        console.log(`Installing ${this.name}...`);
         if (!await this.versionExists(version)) {
             throw new Error(`Version ${version} does not exist on ${this.name}`);
         }

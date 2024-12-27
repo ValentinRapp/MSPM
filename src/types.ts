@@ -3,13 +3,15 @@ export type Package = {
     type: string;
     name: string,
     version: string
-}
+};
+
+export type Loader = {
+    name: string,
+    version: string,
+    build: string
+};
 
 export type packageFile = {
-    loader: {
-        name: string,
-        version: string,
-        build: string
-    };
+    loader: Loader
     packages: Array<Package>
 };

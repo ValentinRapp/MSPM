@@ -5,6 +5,7 @@ export abstract class Source {
     abstract get packageTypes(): string[];
     abstract searchPackages(packageType: string, query: string, packageFile: packageFile | null): Promise<string[]>;
     abstract addPackage(packageType: string, packageName: string, packageFile: packageFile): Promise<Package>;
+    abstract downloadPackage(packageInfo: Package): Promise<Blob>;
 
     async executeSearchPackages(packageType: string, query: string): Promise<void> {
         let packageFile: packageFile | null = null;

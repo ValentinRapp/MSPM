@@ -36,9 +36,7 @@ export class Modrinth extends Source {
 
     async addPackage(packageType: string, packageName: string, packageFile: packageFile): Promise<Package> {
 
-        // console.log(packageFile)
-
-        let request = await fetch(`https://api.modrinth.com/v2/project/${packageName}/version`, {
+        const request = await fetch(`https://api.modrinth.com/v2/project/${packageName}/version`, {
             headers: {
                 "User-Agent": "github.com/ValentinRapp/mspm"
             }
@@ -64,7 +62,31 @@ export class Modrinth extends Source {
             name: packageName,
             version: filteredData[0].version_number
         };
-        
+
+    }
+
+    async downloadPackage(packageInfo: Package): Promise<Blob> {
+        const request = await fetch(`https://api.modrinth.com/v2/project/${packageInfo.name}/version`, {
+            headers: {
+                "User-Agent": "github.com/ValentinRapp/mspm"
+            }
+        });
+
+        if (!request.ok) {
+            console.error("Package not found");
+            process.exit(1);
+        }
+
+        const data = await request.json();
+
+        const filteredData = data.filter((element: { version_number: string }) => element.version_number === packageInfo.version);
+
+        if (filteredData.length === 0) {
+            console.error("No matching version was found");
+            process.exit(1);
+        }
+
+        return fetch(filteredData[0].files[0].url).then(res => res.blob());
     }
 
 }
