@@ -1,6 +1,7 @@
 import { loaders, sources } from "../index";
 import type { Package, packageFile, Loader } from "../types";
 import { getPath } from "../utils/getPath";
+import { add } from "./add";
 
 const downloadLoader = async (data: Loader) => {
     const loader = loaders.find(loader => loader.name === data.name);
@@ -29,7 +30,7 @@ const installPackage = async (packageInfo: Package) => {
         process.exit(1);
     }
     const path = getPath(packageInfo.type);
-    const extension = ['plugin', 'mod'].includes(packageInfo.type) ? 'jar' : 'zip';
+    const extension = ['plugin', 'mod'].includes(packageInfo.type.split(' ')[0]) ? 'jar' : 'zip';
 
     const fileData = await source.downloadPackage(packageInfo);
 
@@ -38,7 +39,12 @@ const installPackage = async (packageInfo: Package) => {
     console.log(`${packageInfo.name} installed succesfully ✅`);
 }
 
-export const install = async () => {
+export const install = async (args: string[]) => {
+    
+    if (args.length >= 1) {
+        await add(args);
+    }
+
     let data: packageFile;
     let cache: packageFile | null;
 

@@ -6,6 +6,7 @@ import { reinstall } from "./commands/reinstall";
 import { Modrinth } from "./sources/Modrinth";
 import { search } from "./commands/search";
 import { add } from "./commands/add";
+import { remove } from "./commands/remove";
 
 export const loaders = [
     new Paper(),
@@ -30,13 +31,15 @@ export const sources = [
     if (command === "init") {
         await init();
     } else if (command === "install") {
-        await install();
+        await install(args.slice(1));
     } else if (command === "reinstall") {
         reinstall();
     } else if (command === "search") {
         await search(args.slice(1));
     } else if (command === "add") {
         await add(args.slice(1));
+    } else if (command === "remove") {
+        await remove(args.slice(1));
     } else {
         console.error("Invalid command");
         process.exit(1);

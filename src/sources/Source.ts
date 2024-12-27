@@ -32,7 +32,7 @@ export abstract class Source {
 
         packageFile.packages.push(await this.addPackage(packageType, packageName, packageFile))
 
-        Bun.write('mspm.json', JSON.stringify(packageFile, null, 4));
+        await Bun.write('mspm.json', JSON.stringify(packageFile, null, 4));
 
         console.log("Added package Successfully, run 'mspm install' next");
     }

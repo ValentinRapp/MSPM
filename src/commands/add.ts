@@ -17,5 +17,5 @@ export const add = async (args: string[]) => {
         process.exit(1);
     }
 
-    source.executeAddPackage(args[1], args[2]);
+    await source.executeAddPackage(args[1], args[2]);
 }
