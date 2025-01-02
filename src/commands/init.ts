@@ -1,6 +1,6 @@
 import { loaders } from "../index";
 import { askQuestion } from "../utils/askQuestion";
-import fs from 'fs';
+import { $ } from "bun";
 
 export const init = async () => {
     console.log("Select loader:\n");
@@ -53,7 +53,7 @@ export const init = async () => {
             Bun.write('run.bat', `java -Xmx${MemoryAmount}G -jar server.jar nogui`);
         } else {
             Bun.write('run.sh', `java -Xmx${MemoryAmount}G -jar server.jar nogui`);
-            fs.chmodSync('run.sh', '0755');
+            await $`chmod +x run.sh`;
         }
 
         console.log("Project configured successfully, use 'mspm install' next");
