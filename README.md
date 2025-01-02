@@ -59,6 +59,55 @@ Available commands:
 | help                                   | Shows this page          |
 ```
 
+### Let's install a few packages
+
+Let's say you'd want to install the ``EssentialsX`` plugin (specifically from modrinth), the way you'd do that would be first to search the plugin on modrinth to find its ID:
+
+```bash
+❯ mspm search modrinth plugin EssentialsX
+
+essentialsx
+essxselectors
+bookshelves
+tparequestgui
+journeyessentials
+```
+
+> If the project you're in is in an incompatible version with the plugin you want, it won't show up
+
+Once you've found it, you can add it to your project using ``mspm add modrinth plugin essentialsx``
+
+your ``mspm.json`` file should now look something like this:
+
+```json
+{
+    "loader": {
+        "name": "Paper",
+        "version": "1.20.1",
+        "build": 196
+    },
+    "packages": [
+        {
+            "source": "Modrinth",
+            "type": "plugin",
+            "name": "essentialsx",
+            "version": "2.20.1"
+        }
+    ]
+}
+```
+
+Now finally, you just have to install all of the packages
+
+```bash
+❯ mspm install
+
+Installing essentialsx...
+Installing Paper...
+essentialsx installed succesfully ✅
+Paper installed successfully ✅
+```
+
 ## Build project from source
 
 ```bash
