@@ -30,7 +30,15 @@ export abstract class Source {
             process.exit(1);
         }
 
-        packageFile.packages.push(await this.addPackage(packageType, packageName, packageFile))
+        const pkg = await this.addPackage(packageType, packageName, packageFile);
+
+        if (!packageFile.packages.find(p => p.name === pkg.name)) {
+            packageFile.packages.push(pkg);
+        } else {
+            // must call the update package method when that gets implemented
+            console.error("Package already exists in project, updating it instead... (to be implemented)");
+            process.exit(0);
+        }
 
         await Bun.write('mspm.json', JSON.stringify(packageFile, null, 4));
 
